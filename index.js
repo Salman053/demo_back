@@ -14,7 +14,7 @@ app.use(
 
 app.use(express.json());
 
-app.get("/users", (req, res) => {
+app.get("/user", (req, res) => {
   res.send("hello world");
 });
 
