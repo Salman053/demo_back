@@ -1,4 +1,4 @@
-export const DB_NAME = "Test";
+export const DB_NAME = "SkillFusion";
 
 export const options = {
   httpOnly: true,

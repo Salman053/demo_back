@@ -52,6 +52,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
   return res.status(200).json(new ApiResponse(200, createdUser, "User created successfully"));
 });
+
 const loginUser = asyncHandler(async (req, res) => {
   const { email, username, password } = req.body;
   // console.log("Received login request:", email, username, password);

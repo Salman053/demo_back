@@ -1,13 +1,12 @@
-"use strict";
 import mongoose from "mongoose";
-
+import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 const companySchema = new mongoose.Schema(
   {
-    regNo: { type: String, unique: true, required: true },
-    name: { type: String, required: true },
-    email: { type: String, unique: true, required: true },
+    username: { type: String, unique: true, required: true },
+    name: { type: String, required: false },
+    email: { type: String, unique: true, required: false },
     password: { type: String, required: true },
     workingTechs: [String],
     location: { type: String },
@@ -19,23 +18,23 @@ const companySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-softwareCompanySchema.pre("save", async function (next) {
+companySchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = bcrypt.hash(this.password, 10);
   next();
 });
 
-softwareCompanySchema.methods.isPasswordCorrect = async function (password) {
+companySchema.methods.isPasswordCorrect = async function (password) {
   // new pass compare with the user hashed Password
   return await bcrypt.compare(password, this.password);
 };
 
-softwareCompanySchema.methods.generateAccessToken = async function () {
+companySchema.methods.generateAccessToken = async function () {
   return jwt.sign(
     {
       _id: this._id,
       email: this.email,
-      name: this.name,
+      username: this.username,
     },
     process.env.ACCESS_TOKEN_SECRET,
     {
@@ -43,12 +42,12 @@ softwareCompanySchema.methods.generateAccessToken = async function () {
     }
   );
 };
-softwareCompanySchema.methods.generateRefreshToken = async function () {
+companySchema.methods.generateRefreshToken = async function () {
   return jwt.sign(
     {
       _id: this._id,
       email: this.email,
-      name: this.name,
+      username: this.username,
     },
     process.env.REFRESH_TOKEN_SECRET,
     {
@@ -57,4 +56,4 @@ softwareCompanySchema.methods.generateRefreshToken = async function () {
   );
 };
 
-module.exports = mongoose.model("Company", companySchema);
+export const Company = mongoose.model("Company", companySchema);

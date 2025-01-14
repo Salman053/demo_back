@@ -4,7 +4,8 @@ import bcrypt from "bcrypt";
 const studentSchema = new mongoose.Schema(
   {
     universityId: { type: mongoose.Schema.Types.ObjectId, ref: "University" },
-    username: { type: String, required: true },
+    username: { type: String, required: true, unique: true, uppercase: true },
+    fullName: { type: String, required: false },
     email: { type: String, unique: true, required: true },
     profilePic: { type: String },
     password: { type: String, required: true },

@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const universitySchema = new mongoose.Schema(
   {
-    regNo: { type: String, required: true },
+    username: { type: String, required: true },
     name: { type: String, required: true },
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
@@ -50,4 +52,4 @@ universitySchema.methods.generateRefreshToken = async function () {
   );
 };
 
-module.exports = mongoose.model("University", universitySchema);
+export const University = mongoose.model("University", universitySchema);

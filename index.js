@@ -33,20 +33,28 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 // Connect to the database
-connectDatabase().catch((error) => {
-  console.error(
-    `MongoDB connection failed. Ensure your connection string is correct. ERROR: ${error}`
-  );
-});
+// connectDatabase().catch((error) => {
+//   console.error(
+//     `MongoDB connection failed. Ensure your connection string is correct. ERROR: ${error}`
+//   );
+// });
+
+// for testing purpose
+connectDatabase()
+  .then(() => {
+    app.listen(process.env.PORT, () => {
+      console.log(`Server is running on port ${process.env.PORT}`);
+    });
+  })
+  .catch((e) => {
+    console.log(e);
+  });
 
 // Routes
 import studentRoutes from "./routes/student.routes.js";
-
+import authRoutes from "./routes/auth.routes.js";
 app.use("/api/v1/student", studentRoutes);
-
-app.get("/api/users", (req, res) => {
-  res.send("Hello");
-});
+app.use("/api/v1/auth", authRoutes);
 
 // Export the app for Vercel
 export default app;
