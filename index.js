@@ -11,8 +11,9 @@ const app = express();
 // Configuration of CORS
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials: true,
+    origin: ["http://localhost:5000", "http://localhost:5173"], // Explicitly define allowed origins
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
+    allowedHeaders: "Content-Type,Authorization",
   })
 );
 
