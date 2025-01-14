@@ -28,15 +28,21 @@ router.route("/register").post(
   registerUser
 );
 
+router.route("/test").get((req, res) => res.send("sdas"));
+
 router.route("/login").post(loginUser);
 
 //secure routes
-router.route("/logout").post(verifyJWT(Student),logoutUser);
+router.route("/logout").post(verifyJWT(Student), logoutUser);
 router.route("/refresh-token").post(refreshAccessToken);
 // router.route("/change-password").post(verifyJWT(Student), changeCurrentPassword);
 router.route("/current-user").get(verifyJWT(Student), getCurrentUser);
 router.route("/update-account").patch(verifyJWT, getCurrentUser);
-router.route("/avatar").patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
-router.route("/cover-image").patch(verifyJWT, upload.single("coverImage"), updateUserCoverImage);
+router
+  .route("/avatar")
+  .patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
+router
+  .route("/cover-image")
+  .patch(verifyJWT, upload.single("coverImage"), updateUserCoverImage);
 
 export default router;
